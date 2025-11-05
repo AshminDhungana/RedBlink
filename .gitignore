@@ -1,0 +1,320 @@
+# ============================================================================
+# RedBlink .gitignore
+# ============================================================================
+# This file specifies which files and directories should be ignored by Git
+# for the RedBlink AI debugging assistant project
+# ============================================================================
+
+# ============================================================================
+# NODE & NPM
+# ============================================================================
+
+##Change Later
+.github/
+
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# npm cache
+.npm/
+npm-debug.log*
+npm-debug.log
+npm-error.log*
+lerna-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+
+# ============================================================================
+# BUILD & OUTPUT
+# ============================================================================
+
+# TypeScript
+out/
+dist/
+build/
+*.tsbuildinfo
+
+# Webpack
+.webpack/
+
+# Compiled output
+*.js
+*.js.map
+*.d.ts
+!jest.config.js
+!webpack.config.js
+
+# VS Code Extension
+*.vsix
+RedBlink-*.vsix
+
+# Browser Extension zip
+*.zip
+RedBlink-browser.zip
+
+# ============================================================================
+# IDE & EDITOR
+# ============================================================================
+
+# VS Code
+.vscode/
+.vscode-test/
+*.code-workspace
+.history/
+
+# WebStorm/IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+.vim
+*.vim
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# Nano
+.nano_history
+
+# ============================================================================
+# OS SPECIFIC
+# ============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+.vscode/
+Icon?
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.directory
+
+# ============================================================================
+# TESTING
+# ============================================================================
+
+# Jest coverage
+coverage/
+.nyc_output/
+*.coverage
+.jest-cache/
+
+# Test results
+test-results/
+*.xunit.xml
+junit.xml
+
+# ============================================================================
+# DEVELOPMENT & TEMPORARY FILES
+# ============================================================================
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Environment variables (local only)
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ============================================================================
+# CREDENTIALS & SECRETS
+# ============================================================================
+
+# API Keys and secrets
+.secrets
+secrets/
+.api-keys
+api-keys/
+credentials.json
+
+# Private keys
+*.key
+*.pem
+*.pfx
+
+# ============================================================================
+# VS CODE EXTENSION SPECIFIC
+# ============================================================================
+
+# Extension build
+vscode-extension/out/
+vscode-extension/dist/
+
+# Extension test
+vscode-extension/.vscode-test/
+
+# ============================================================================
+# BROWSER EXTENSION SPECIFIC
+# ============================================================================
+
+# Browser extension build
+browser-extension/dist/
+browser-extension/out/
+
+# ============================================================================
+# DOCUMENTATION
+# ============================================================================
+
+# Generated docs
+docs/generated/
+site/
+_site/
+
+# ============================================================================
+# PROJECT SPECIFIC
+# ============================================================================
+
+# Setup artifacts
+SETUP_SUMMARY.txt
+
+# Compiled manifests
+*.manifest
+
+# ============================================================================
+# DATABASE & CACHE
+# ============================================================================
+
+# SQLite
+*.sqlite
+*.sqlite3
+*.db
+
+# Redis
+dump.rdb
+
+# Cache
+.cache/
+cache/
+
+# ============================================================================
+# OPTIONAL NPM CACHE
+# ============================================================================
+
+# node-waf configuration
+.lock-wscript
+
+# ============================================================================
+# MISC
+# ============================================================================
+
+# System files
+.gitkeep
+.keep
+
+# placeholder files
+.placeholder
+
+# ============================================================================
+# PATTERNS TO IGNORE
+# ============================================================================
+
+# Ignore all dot files except .gitignore, .github, .gitattributes
+.*
+!.gitignore
+!.github/
+!.gitattributes
+!.prettierrc.json
+!.eslintrc.json
+
+# ============================================================================
+# COMMENT ON RULES
+# ============================================================================
+
+# Node.js & npm:
+#   - Packages in node_modules/ should not be committed
+#   - Lock files should be committed for reproducible installs
+#   - Remove "package-lock.json" from ignore if using npm for exact versioning
+
+# Build outputs:
+#   - Compiled JavaScript files are generated, don't commit
+#   - Webpack bundles are generated
+#   - TypeScript output files (.d.ts, .js.map) are generated
+
+# IDE:
+#   - IDE configurations are personal, don't commit
+#   - .vscode/ contains personal settings
+#   - .idea/ contains IntelliJ settings
+
+# OS:
+#   - OS-specific files (.DS_Store, Thumbs.db) aren't project files
+
+# Secrets:
+#   - Never commit API keys, credentials, or secrets
+#   - Use .env files for local secrets (add to .gitignore)
+
+# Testing:
+#   - Coverage reports are generated
+#   - Test artifacts don't need version control
+
+# Environment:
+#   - Local .env files are user-specific, don't commit
+#   - Build artifacts are generated
+
+# ============================================================================
+# TO USE THIS FILE:
+# ============================================================================
+
+# 1. Place this file in the root of your RedBlink repository
+# 2. Git automatically respects it
+# 3. To check what would be ignored: git status --ignored
+# 4. To add a file that's ignored: git add -f filename
+# 5. To remove from ignoring: Edit this file and remove the pattern
+
+# ============================================================================
+# HELPFUL GIT COMMANDS
+# ============================================================================
+
+# View all ignored files:
+#   git status --ignored
+
+# Check if specific file would be ignored:
+#   git check-ignore -v path/to/file
+
+# Ignore file that was previously tracked:
+#   git rm --cached filename
+
+# Add ignored file anyway:
+#   git add -f filename
+
+# ============================================================================

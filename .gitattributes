@@ -1,0 +1,208 @@
+# ============================================================================
+# RedBlink .gitattributes
+# ============================================================================
+# This file controls how Git handles line endings and binary files across
+# different operating systems (Windows, macOS, Linux)
+# ============================================================================
+
+# ============================================================================
+# AUTO DETECT & NORMALIZE
+# ============================================================================
+
+# Normalize line endings for all files in the repo
+* text=auto
+
+# ============================================================================
+# TEXT FILES - LF (Unix Line Endings)
+# ============================================================================
+
+# Scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Code
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.jsonc text eol=lf
+
+# Markup & Styling
+*.html text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.less text eol=lf
+*.md text eol=lf
+*.markdown text eol=lf
+*.rst text eol=lf
+*.xml text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+
+# Config files
+.editorconfig text eol=lf
+.eslintrc* text eol=lf
+.prettierrc* text eol=lf
+.npmrc text eol=lf
+tsconfig.json text eol=lf
+jest.config.js text eol=lf
+webpack.config.js text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# Documentation
+*.txt text eol=lf
+LICENSE text eol=lf
+CHANGELOG.md text eol=lf
+CONTRIBUTING.md text eol=lf
+README.md text eol=lf
+
+# ============================================================================
+# TEXT FILES - CRLF (Windows Line Endings) - Optional
+# ============================================================================
+
+# If working primarily on Windows, uncomment to use CRLF
+# *.bat text eol=crlf
+# *.cmd text eol=crlf
+# *.ps1 text eol=crlf
+
+# ============================================================================
+# BINARY FILES
+# ============================================================================
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.webp binary
+
+# Fonts
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+*.bz2 binary
+*.xz binary
+*.7z binary
+*.rar binary
+
+# Videos
+*.mp4 binary
+*.webm binary
+*.mov binary
+*.avi binary
+
+# Audio
+*.mp3 binary
+*.wav binary
+*.flac binary
+
+# Documents
+*.pdf binary
+*.doc binary
+*.docx binary
+*.xls binary
+*.xlsx binary
+*.ppt binary
+*.pptx binary
+
+# Compiled
+*.o binary
+*.a binary
+*.so binary
+*.dylib binary
+*.dll binary
+*.exe binary
+*.class binary
+
+# Extensions (packaged)
+*.vsix binary
+*.xpi binary
+*.crx binary
+
+# ============================================================================
+# DIFF & MERGE SETTINGS
+# ============================================================================
+
+# JSON files - use better diff
+*.json diff=json
+
+# JavaScript - use better diff
+*.js diff=javascript
+*.ts diff=javascript
+*.tsx diff=javascript
+
+# Markdown
+*.md diff=markdown
+
+# YAML
+*.yaml diff=yaml
+*.yml diff=yaml
+
+# ============================================================================
+# MERGE STRATEGIES
+# ============================================================================
+
+# For package-lock.json, always use ours (npm should manage this)
+package-lock.json merge=ours
+
+# For lock files, use union merge
+yarn.lock merge=union
+package-lock.json merge=ours
+
+# ============================================================================
+# LINE ENDING HANDLING
+# ============================================================================
+
+# Keep line endings consistent across platforms
+# This ensures developers on Windows, macOS, and Linux work with same endings
+
+# ============================================================================
+# HELPFUL NOTES
+# ============================================================================
+
+# Line Endings:
+#   - LF (Unix): \n (used in macOS, Linux)
+#   - CRLF (Windows): \r\n (used in Windows)
+#   - Auto: Git automatically converts based on platform
+
+# Why normalize to LF:
+#   - Most servers use Linux (LF)
+#   - Cross-platform development is smoother
+#   - CI/CD systems expect LF
+#   - Reduces diff noise from line ending changes
+
+# If you see "git autocrlf" warnings:
+#   - These attributes should override git config
+#   - Explicit eol settings take precedence
+
+# ============================================================================
+# GIT CONFIGURATION COMMANDS
+# ============================================================================
+
+# Optional: Configure git to enforce these settings globally
+# git config --global core.safecrlf warn
+# git config --global core.autocrlf input   # on macOS/Linux
+# git config --global core.autocrlf true    # on Windows
+
+# ============================================================================
+# USAGE
+# ============================================================================
+
+# 1. Place this file in the root of your RedBlink repository
+# 2. Git automatically respects these settings
+# 3. Commit this file to version control
+# 4. Share with team to ensure consistency
+
+# ============================================================================
