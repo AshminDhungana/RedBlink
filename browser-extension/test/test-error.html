@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedBlink Test - Error Page</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        h1 { color: #333; }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+        }
+        button:hover { background: #0056b3; }
+        .log { 
+            background: #f5f5f5; 
+            padding: 10px; 
+            margin-top: 20px; 
+            border-radius: 5px;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔴 RedBlink Test Page</h1>
+    <p>Click a button to trigger different types of errors:</p>
+
+    <button onclick="triggerTypeError()">1. Trigger Type Error</button>
+    <button onclick="triggerRuntimeError()">2. Trigger Runtime Error</button>
+    <button onclick="triggerPromiseRejection()">3. Trigger Promise Rejection</button>
+    <button onclick="triggerCustomError()">4. Trigger Custom Error</button>
+
+    <div class="log">
+        <strong>Console Log:</strong>
+        <pre id="log"></pre>
+    </div>
+
+    <script>
+        // Capture console logs
+        const logDiv = document.getElementById('log');
+        const originalLog = console.log;
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            logDiv.textContent += args.join(' ') + '\n';
+            logDiv.scrollTop = logDiv.scrollHeight;
+        };
+
+        console.log('📋 RedBlink Test Page Loaded');
+
+        function triggerTypeError() {
+            console.log('🔴 Triggering Type Error...');
+            const x = 'string';
+            const y = x.toUpperCase(); // This is fine
+            const z = x.toNumber();    // This will error - undefined method
+        }
+
+        function triggerRuntimeError() {
+            console.log('🔴 Triggering Runtime Error...');
+            const obj = null;
+            obj.property = 5;  // Cannot set property of null
+        }
+
+        function triggerPromiseRejection() {
+            console.log('🔴 Triggering Promise Rejection...');
+            Promise.reject('This is a rejected promise!');
+        }
+
+        function triggerCustomError() {
+            console.log('🔴 Triggering Custom Error...');
+            throw new Error('This is a custom error message');
+        }
+    </script>
+</body>
+</html>
