@@ -64,7 +64,11 @@
       {
         "command": "redblink.runAssistant",
         "title": "Run in Assistant"
-      }
+      },
+    {
+    "command": "redblink.testError",
+    "title": "RedBlink: Test Error Detection"
+     }
     ]
   },
   "scripts": {
