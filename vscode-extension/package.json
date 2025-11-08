@@ -44,8 +44,9 @@
     "views": {
       "redblink-view": [
         {
-          "id": "redblink-sidebar",
-          "name": "RedBlink"
+          "id": "redblink-view",
+          "name": "RedBlink",
+          "type": "webview"
         }
       ]
     },
@@ -65,10 +66,10 @@
         "command": "redblink.runAssistant",
         "title": "Run in Assistant"
       },
-    {
-    "command": "redblink.testError",
-    "title": "RedBlink: Test Error Detection"
-     }
+      {
+        "command": "redblink.testError",
+        "title": "RedBlink: Test Error Detection"
+      }
     ]
   },
   "scripts": {

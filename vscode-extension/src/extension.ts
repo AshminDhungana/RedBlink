@@ -3,22 +3,38 @@
 import * as vscode from 'vscode'
 import { ErrorDetector } from './errorDetector'
 import { QuestionGenerator } from './questionGenerator'
+import { RedBlinkWebViewProvider } from './webViewProvider'
 
 // Global instances
 let errorDetector: ErrorDetector
 let questionGenerator: QuestionGenerator
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('🚀 RedBlink extension is now active!')
+  console.log('\n🚀 RedBlink extension is now active!\n')
 
   // Initialize modules
   errorDetector = new ErrorDetector()
   questionGenerator = new QuestionGenerator()
 
   console.log('✅ ErrorDetector initialized')
-  console.log('✅ QuestionGenerator initialized')
+  console.log('✅ QuestionGenerator initialized\n')
 
-  // Listen for errors
+  // ===== WEBVIEW SIDEBAR SETUP =====
+  const webViewProvider = new RedBlinkWebViewProvider(context)
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      RedBlinkWebViewProvider.viewType,
+      webViewProvider,
+      {
+        webviewOptions: {
+          retainContextWhenHidden: true,
+        },
+      }
+    )
+  )
+  console.log('✅ WebView provider registered')
+
+  // ===== ERROR DETECTION LISTENER =====
   errorDetector.onErrorDetected((error) => {
     console.log('')
     console.log('🚨 ERROR DETECTED:')
@@ -39,46 +55,55 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('')
   })
 
-// Register a command to test error detection
-const runCommand = vscode.commands.registerCommand(
-  'redblink.runAssistant',
-  () => {
-    console.log('\n🧪 TEST: Running RedBlink Assistant...\n')
+  // ===== COMMANDS =====
 
-    // Simulate detecting an error
-    const testError = errorDetector.detectFromText(
-      'Error TS2322: Type "string" is not assignable to type "number"',
-      'test.ts'
-    )
+  // Test error detection command
+  const runCommand = vscode.commands.registerCommand(
+    'redblink.runAssistant',
+    () => {
+      console.log('\n🧪 TEST: Running RedBlink Assistant...\n')
 
-    if (testError.length === 0) {
-      console.log('❌ No errors detected in test')
-    } else {
-      console.log(`✅ Test passed! Detected ${testError.length} error(s)`)
+      // Simulate detecting an error
+      const testError = errorDetector.detectFromText(
+        'Error TS2322: Type "string" is not assignable to type "number"',
+        'test.ts'
+      )
+
+      if (testError.length === 0) {
+        console.log('❌ No errors detected in test')
+      } else {
+        console.log(`✅ Test passed! Detected ${testError.length} error(s)`)
+      }
     }
-  }
-)
+  )
+  context.subscriptions.push(runCommand)
+  console.log('✅ Run Assistant command registered')
 
-context.subscriptions.push(runCommand)
-
-
-  // Register toggle sidebar command
+  // Toggle sidebar command
   const toggleCommand = vscode.commands.registerCommand(
     'redblink.toggleSidebar',
     () => {
-      vscode.window.showInformationMessage(
-        '🔴 RedBlink: Sidebar feature coming soon!'
-      )
+      console.log('Toggle sidebar command executed')
+      vscode.commands.executeCommand('redblink-view.focus')
     }
   )
-
-  // Add commands to subscriptions (cleanup on deactivate)
   context.subscriptions.push(toggleCommand)
+  console.log('✅ Toggle sidebar command registered')
+
+  // ===== FILE CHANGE LISTENER =====
+  const onChangeDisposable = vscode.workspace.onDidChangeTextDocument(() => {
+    // In the future: refresh diagnostics when file changes
+    console.log('📝 Document changed (diagnostic refresh coming soon)')
+  })
+  context.subscriptions.push(onChangeDisposable)
+  console.log('✅ Document change listener registered')
 
   // Show welcome message
-  vscode.window.showInformationMessage('🚀 RedBlink activated!')
+  vscode.window.showInformationMessage('🚀 RedBlink activated! Check the sidebar →')
+
+  console.log('✅ RedBlink extension fully initialized\n')
 }
 
 export function deactivate() {
-  console.log('🔵 RedBlink extension deactivated')
+  console.log('\n🔵 RedBlink extension deactivated\n')
 }
