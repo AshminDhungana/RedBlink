@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedBlink</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon">🔴</div>
+            <div class="header-title">RedBlink</div>
+            <div class="error-count" id="errorCount">0</div>
+        </div>
+
+        <div id="status" class="status">Loading...</div>
+
+        <div class="toolbar">
+            <button id="refreshBtn" class="btn-primary">🔄 Refresh</button>
+            <button id="testBtn" class="btn-secondary">🧪 Test</button>
+        </div>
+
+        <div id="errorsList" class="errors-list">
+            <div class="empty-state">
+                <div class="empty-icon">✓</div>
+                <div class="empty-text">No errors detected</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
