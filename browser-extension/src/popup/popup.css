@@ -192,3 +192,47 @@ body {
     text-transform: uppercase;
     font-weight: 600;
 }
+
+
+.ai-response {
+  margin-top: 12px;
+  padding: 10px;
+  background: #f0f9ff;
+  border-left: 3px solid #0066cc;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #333;
+}
+
+.ai-response-header {
+  font-weight: 600;
+  color: #0066cc;
+  margin-bottom: 6px;
+  font-size: 10px;
+}
+
+.ai-response-text {
+  line-height: 1.4;
+  margin-bottom: 6px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.ai-response-meta {
+  font-size: 10px;
+  color: #666;
+  border-top: 1px solid #ddd;
+  padding-top: 4px;
+}
+
+.loading {
+  color: #0066cc;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}

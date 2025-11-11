@@ -9,7 +9,10 @@
     "storage"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "<all_urls>",
+    "https://api.anthropic.com/*",        
+    "https://api.openai.com/*",           
+    "https://generativelanguage.googleapis.com/*" 
   ],
   "background": {
     "service_worker": "dist/background.js"

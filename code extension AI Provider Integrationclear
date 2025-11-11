@@ -1,0 +1,46 @@
+[33mcommit a2bf627d5c9282fe121eebb276fa1138507902a9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Ashmin Dhungana <dhungana.ashmin@gmail.com>
+Date:   Tue Nov 11 20:09:34 2025 +0545
+
+    feat: vscode extension AI Provider Integration
+
+[33mcommit 87992411be5650120251a67aff2a6290d2292773[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Ashmin Dhungana <dhungana.ashmin@gmail.com>
+Date:   Sat Nov 8 19:41:11 2025 +0545
+
+    feat: Complete browser extension popup with error detection UI
+
+[33mcommit 5ffe6b5d6a229da6e64e51562cca4e9ada71490f[m
+Author: Ashmin Dhungana <dhungana.ashmin@gmail.com>
+Date:   Sat Nov 8 19:30:07 2025 +0545
+
+    feat: Complete VS Code extension with sidebar UI
+
+[33mcommit dde76135ecc963d04f387363cd082198d7be2ec8[m
+Author: Ashmin Dhungana <dhungana.ashmin@gmail.com>
+Date:   Fri Nov 7 20:10:43 2025 +0545
+
+    feat: Implement browser extension error detection and question generation
+
+[33mcommit b0e56dab099db6f30042da7357ec167373fe1897[m
+Author: Ashmin Dhungana <dhungana.ashmin@gmail.com>
+Date:   Fri Nov 7 20:00:48 2025 +0545
+
+    feat: Implement error detector and question generator modules
+    
+    - Created ErrorDetector class with pattern-based error categorization
+    - Created QuestionGenerator with difficulty-based questions
+    - Integrated both modules with appropriate exports
+    - Verified modules work with direct test
+
+[33mcommit 7d4caea903ed28b8bb1bf911c132631011bd9c19[m
+Author: Ashmin Dhungana <dhungana.ashmin@gmail.com>
+Date:   Wed Nov 5 22:25:36 2025 +0545
+
+    Initial Project Setup and Configuration
+
+[33mcommit ebe50d60f8a73b6468559cd8ae8720485d776e6f[m
+Author: Ashmin Dhungana <77155700+AshminDhungana@users.noreply.github.com>
+Date:   Wed Nov 5 21:18:29 2025 +0545
+
+    Initial commit

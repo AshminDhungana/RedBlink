@@ -223,3 +223,135 @@ chrome.runtime.onMessage.addListener(
 )
 
 console.log('✅ RedBlink popup fully initialized')
+
+
+/**
+ * Ask AI about an error (NEW)
+ */
+function askAI(errorId: string, errorData: any): void {
+  console.log('🤖 Asking AI about error:', errorData);
+
+  // Show loading state
+  const errorCard = document.querySelector(`[data-error-id="${errorId}"]`);
+  if (errorCard) {
+    const responseDiv = errorCard.querySelector('.ai-response') || document.createElement('div');
+    responseDiv.className = 'ai-response';
+    responseDiv.innerHTML = '<div class="loading">⏳ Asking AI...</div>';
+    errorCard.appendChild(responseDiv);
+  }
+
+  // Send to background
+  chrome.runtime.sendMessage(
+    {
+      type: 'ASK_AI',
+      data: {
+        error: errorData,
+        question: `What is this ${errorData.category} error and how do I fix it?`,
+        codeContext: errorData.message,
+      },
+    },
+    (response) => {
+      if (response.success) {
+        console.log('✅ AI Response:', response.data);
+        displayAIResponse(errorId, response.data);
+      } else {
+        console.error('❌ AI Error:', response.error);
+        showError('AI request failed: ' + response.error);
+      }
+    }
+  );
+}
+
+/**
+ * Display AI response in popup
+ */
+function displayAIResponse(errorId: string, response: any): void {
+  const errorCard = document.querySelector(`[data-error-id="${errorId}"]`);
+  if (!errorCard) return;
+
+  const responseDiv = errorCard.querySelector('.ai-response') || document.createElement('div');
+  responseDiv.className = 'ai-response';
+  responseDiv.innerHTML = `
+    <div class="ai-response-header">✅ ${response.provider}</div>
+    <div class="ai-response-text">${escapeHtml(response.text)}</div>
+    <div class="ai-response-meta">⏱️ ${response.responseTime}ms | 📊 ${response.tokenUsage.totalTokens} tokens</div>
+  `;
+
+  if (!errorCard.querySelector('.ai-response')) {
+    errorCard.appendChild(responseDiv);
+  }
+}
+
+/**
+ * Configure API key (NEW)
+ */
+function configureApiKey(): void {
+  const provider = prompt('Enter provider (gemini, claude, openai):');
+  if (!provider) return;
+
+  const apiKey = prompt(`Enter ${provider} API key:`);
+  if (!apiKey) return;
+
+  chrome.runtime.sendMessage(
+    {
+      type: 'SET_API_KEY',
+      provider: provider.toLowerCase(),
+      apiKey: apiKey,
+    },
+    (response) => {
+      if (response.success) {
+        alert('✅ API key saved!');
+        loadStatus();
+      } else {
+        alert('❌ Error: ' + response.error);
+      }
+    }
+  );
+}
+
+/**
+ * Load provider status (NEW)
+ */
+function loadStatus(): void {
+  chrome.runtime.sendMessage({ type: 'GET_STATUS' }, (response) => {
+    if (response.activeProvider) {
+      // Update status display
+      const statusDiv = document.getElementById('status');
+      if (statusDiv) {
+        statusDiv.innerHTML = `
+          <div style="font-size: 12px; color: #888;">
+            🤖 Provider: <strong>${response.activeProvider}</strong><br>
+            ✅ Available: ${response.availableProviders?.join(', ') || 'None'}
+            <button onclick="configureApiKey()" style="margin-top: 6px; width: 100%; padding: 4px; font-size: 11px;">
+              ⚙️ Add API Key
+            </button>
+          </div>
+        `;
+      }
+    }
+  });
+}
+
+/**
+ * Show error message (NEW)
+ */
+function showError(message: string): void {
+  alert('❌ ' + message);
+}
+
+/**
+ * Escape HTML (NEW)
+ */
+function escapeHtml(text: string): string {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Load status when popup opens (NEW)
+document.addEventListener('DOMContentLoaded', () => {
+  // ... keep your existing code ...
+  
+  // ADD THIS:
+  loadStatus();
+});

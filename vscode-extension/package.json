@@ -1,7 +1,7 @@
 {
   "name": "redblink",
-  "displayName": "RedBlink",
-  "description": "Non-intrusive AI debugging assistant - Red blink. Smart questions. Any AI model.",
+  "displayName": "🔴 RedBlink",
+  "description": "Non-intrusive AI debugging assistant - Red blink alerts, smart questions, any AI model",
   "version": "1.0.0",
   "license": "MIT",
   "publisher": "RedBlink",
@@ -10,104 +10,289 @@
     "url": "https://github.com/RedBlink/RedBlink.git"
   },
   "homepage": "https://redblink.dev",
+  "bugs": {
+    "url": "https://github.com/RedBlink/RedBlink/issues"
+  },
   "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#ff4444",
+    "theme": "dark"
+  },
   "engines": {
     "vscode": "^1.80.0"
   },
   "categories": [
     "Debuggers",
     "Machine Learning",
+    "AI",
     "Other"
   ],
   "keywords": [
     "ai",
     "debugging",
     "error-detection",
+    "error-handling",
     "claude",
-    "gpt",
-    "gemini"
+    "chatgpt",
+    "gpt-4",
+    "gemini",
+    "code-review",
+    "code-analysis",
+    "documentation",
+    "optimization"
   ],
   "main": "./out/extension.js",
   "activationEvents": [
-    "onStartupFinished"
+    "onStartupFinished",
+    "onCommand:redblink.analyzeFile",
+    "onCommand:redblink.analyzeSelection",
+    "onCommand:redblink.configureApiKey"
   ],
   "contributes": {
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "redblink-view",
-          "title": "RedBlink",
+          "id": "redblink-sidebar",
+          "title": "🔴 RedBlink",
           "icon": "media/icon.svg"
         }
       ]
     },
     "views": {
-      "redblink-view": [
+      "redblink-sidebar": [
         {
           "id": "redblink-view",
-          "name": "RedBlink",
+          "name": "RedBlink Assistant",
           "type": "webview"
         }
       ]
     },
+    "commands": [
+      {
+        "command": "redblink.runAssistant",
+        "title": "🔴 RedBlink: Test Assistant",
+        "category": "RedBlink"
+      },
+      {
+        "command": "redblink.toggleSidebar",
+        "title": "🔴 RedBlink: Toggle Sidebar",
+        "category": "RedBlink"
+      },
+      {
+        "command": "redblink.configureApiKey",
+        "title": "🔴 RedBlink: Configure API Key",
+        "category": "RedBlink"
+      },
+      {
+        "command": "redblink.switchProvider",
+        "title": "🔴 RedBlink: Switch Provider",
+        "category": "RedBlink"
+      },
+      {
+        "command": "redblink.showProviders",
+        "title": "🔴 RedBlink: Show Provider Status",
+        "category": "RedBlink"
+      },
+      {
+        "command": "redblink.analyzeFile",
+        "title": "🔴 RedBlink: Analyze File",
+        "category": "RedBlink",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "redblink.analyzeSelection",
+        "title": "🔴 RedBlink: Analyze Selection",
+        "category": "RedBlink",
+        "icon": "$(selection)"
+      },
+      {
+        "command": "redblink.codeReview",
+        "title": "🔴 RedBlink: Code Review",
+        "category": "RedBlink",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "redblink.optimize",
+        "title": "🔴 RedBlink: Optimize Code",
+        "category": "RedBlink",
+        "icon": "$(zap)"
+      },
+      {
+        "command": "redblink.generateDocs",
+        "title": "🔴 RedBlink: Generate Documentation",
+        "category": "RedBlink",
+        "icon": "$(file-text)"
+      }
+    ],
     "keybindings": [
       {
         "command": "redblink.toggleSidebar",
         "key": "ctrl+shift+r",
-        "mac": "cmd+shift+r"
+        "mac": "cmd+shift+r",
+        "when": "editorFocus"
+      },
+      {
+        "command": "redblink.analyzeFile",
+        "key": "ctrl+shift+alt+a",
+        "mac": "cmd+shift+alt+a",
+        "when": "editorFocus"
+      },
+      {
+        "command": "redblink.analyzeSelection",
+        "key": "ctrl+shift+alt+s",
+        "mac": "cmd+shift+alt+s",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "redblink.codeReview",
+        "key": "ctrl+shift+alt+r",
+        "mac": "cmd+shift+alt+r",
+        "when": "editorFocus"
+      },
+      {
+        "command": "redblink.optimize",
+        "key": "ctrl+shift+alt+o",
+        "mac": "cmd+shift+alt+o",
+        "when": "editorFocus"
       }
     ],
-    "commands": [
-      {
-        "command": "redblink.toggleSidebar",
-        "title": "Toggle RedBlink Sidebar"
-      },
-      {
-        "command": "redblink.runAssistant",
-        "title": "Run in Assistant"
-      },
-      {
-        "command": "redblink.testError",
-        "title": "RedBlink: Test Error Detection"
+    "menus": {
+      "editor/context": [
+        {
+          "command": "redblink.analyzeSelection",
+          "group": "redblink@1",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "redblink.analyzeFile",
+          "group": "redblink@2"
+        },
+        {
+          "command": "redblink.codeReview",
+          "group": "redblink@3"
+        },
+        {
+          "command": "redblink.generateDocs",
+          "group": "redblink@4"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "redblink.runAssistant",
+          "when": "editorFocus"
+        },
+        {
+          "command": "redblink.analyzeFile",
+          "when": "editorFocus"
+        },
+        {
+          "command": "redblink.analyzeSelection",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "redblink.codeReview",
+          "when": "editorFocus"
+        },
+        {
+          "command": "redblink.optimize",
+          "when": "editorFocus"
+        },
+        {
+          "command": "redblink.generateDocs",
+          "when": "editorFocus"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "RedBlink",
+      "properties": {
+        "redblink.activeProvider": {
+          "type": "string",
+          "default": "gemini",
+          "enum": ["gemini", "claude", "openai", "copilot"],
+          "description": "Active AI provider for RedBlink",
+          "enumDescriptions": [
+            "Google Gemini",
+            "Anthropic Claude",
+            "OpenAI ChatGPT",
+            "GitHub Copilot"
+          ]
+        },
+        "redblink.maxTokens": {
+          "type": "number",
+          "default": 2000,
+          "minimum": 100,
+          "maximum": 10000,
+          "description": "Maximum tokens for AI responses"
+        },
+        "redblink.temperature": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Temperature for AI responses (0 = deterministic, 1 = creative)"
+        },
+        "redblink.enableNotifications": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show desktop notifications for errors"
+        },
+        "redblink.autoAnalyzeErrors": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically analyze errors when detected"
+        },
+        "redblink.cacheSize": {
+          "type": "number",
+          "default": 50,
+          "description": "Number of AI responses to cache"
+        }
       }
-    ]
+    }
   },
   "scripts": {
-    "vscode:prepublish": "npm run build",
-    "dev": "tsc && webpack --mode development --watch",
-    "build": "tsc && webpack --mode production",
-    "watch": "tsc --watch",
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --platform=node --target=node18 --format=cjs",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "watch": "npm run esbuild-watch",
+    "build": "npm run compile && webpack --mode production",
     "compile": "tsc -p ./",
+    "dev": "tsc -watch",
     "lint": "eslint src --ext ts",
     "lint:fix": "eslint src --ext ts --fix",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.css\" \"src/**/*.html\"",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,css,html}\"",
     "type-check": "tsc --noEmit",
     "pretest": "npm run compile",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "clean": "rm -rf out dist"
+    "clean": "rm -rf out dist",
+    "package": "vsce package",
+    "publish": "vsce publish"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.0",
-    "@types/node": "^20.0.0",
-    "@types/vscode": "^1.80.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "eslint": "^8.48.0",
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.84.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "esbuild": "^0.19.8",
+    "eslint": "^8.55.0",
     "jest": "^29.7.0",
-    "prettier": "^3.0.0",
-    "ts-jest": "^29.1.0",
-    "ts-loader": "^9.5.0",
-    "typescript": "^5.2.0",
-    "webpack": "^5.88.0",
-    "webpack-cli": "^5.1.0"
+    "prettier": "^3.1.0",
+    "ts-jest": "^29.1.1",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.1"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.8.0",
-    "openai": "^4.24.0",
-    "@google/generative-ai": "^0.3.0",
-    "axios": "^1.6.0",
+    "@anthropic-ai/sdk": "^0.16.0",
+    "@google/generative-ai": "^0.3.1",
+    "openai": "^4.24.7"
+  },
+  "optionalDependencies": {
     "keytar": "^7.9.0"
   }
 }

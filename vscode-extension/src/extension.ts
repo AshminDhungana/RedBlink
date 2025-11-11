@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 import { ErrorDetector } from './errorDetector';
 import { QuestionGenerator } from './questionGenerator';
 import { RedBlinkWebViewProvider } from './webViewProvider';
+import { FileAnalyzer } from './fileAnalyzer';
 import {
   initCredentialManager,
   getCredentialManager,
@@ -18,15 +19,16 @@ import { AIProviderType, AIProviderRequest } from './aiProvider/types';
  * REDBLINK EXTENSION - MAIN FILE
  * ============================================
  * 
- * Integrates all components:
- * - Error Detection
- * - Question Generation
+ * Complete integration with:
+ * - Error Detection & Questions (automatic)
+ * - File Analysis & Code Review (manual commands)
+ * - Selection Analysis (manual commands)
  * - AI Providers (Gemini, Claude, OpenAI, Copilot)
- * - WebView UI
+ * - WebView UI (sidebar)
  * - Settings & Configuration
- * 
- * Global instances
  */
+
+// ===== GLOBAL INSTANCES =====
 
 // Phase 1: Error Detection & Questions
 let errorDetector: ErrorDetector;
@@ -35,6 +37,9 @@ let questionGenerator: QuestionGenerator;
 // Phase 2: AI Providers
 let credentialManager: ReturnType<typeof getCredentialManager> | null = null;
 let providerManager: ReturnType<typeof getProviderManager> | null = null;
+
+// Phase 3: File Analysis
+let fileAnalyzer: FileAnalyzer;
 
 // Track active errors for UI updates
 let activeErrors: Map<string, any> = new Map();
@@ -53,9 +58,11 @@ export async function activate(context: vscode.ExtensionContext) {
 
     errorDetector = new ErrorDetector();
     questionGenerator = new QuestionGenerator();
+    fileAnalyzer = new FileAnalyzer();
 
     console.log('✅ ErrorDetector initialized');
-    console.log('✅ QuestionGenerator initialized\n');
+    console.log('✅ QuestionGenerator initialized');
+    console.log('✅ FileAnalyzer initialized\n');
 
     // ===== PHASE 2: INITIALIZE AI PROVIDERS =====
     console.log('🤖 Phase 2: Initializing AI Providers...');
@@ -128,7 +135,11 @@ export async function activate(context: vscode.ExtensionContext) {
     // ===== PHASE 5: COMMANDS =====
     console.log('⚙️ Phase 5: Registering commands...');
 
-    // Command: Test error detection
+    // ===== ERROR DEBUGGING COMMANDS =====
+
+    /**
+     * Command: Test error detection
+     */
     const testCommand = vscode.commands.registerCommand(
       'redblink.runAssistant',
       async () => {
@@ -202,7 +213,9 @@ export async function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(testCommand);
     console.log('✅ Test Assistant command registered');
 
-    // Command: Toggle sidebar
+    /**
+     * Command: Toggle sidebar
+     */
     const toggleCommand = vscode.commands.registerCommand(
       'redblink.toggleSidebar',
       () => {
@@ -213,7 +226,9 @@ export async function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(toggleCommand);
     console.log('✅ Toggle sidebar command registered');
 
-    // Command: Switch AI Provider
+    /**
+     * Command: Switch AI Provider
+     */
     const switchProviderCommand = vscode.commands.registerCommand(
       'redblink.switchProvider',
       async (provider: AIProviderType) => {
@@ -235,7 +250,9 @@ export async function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(switchProviderCommand);
     console.log('✅ Switch provider command registered');
 
-    // Command: Configure API Key
+    /**
+     * Command: Configure API Key
+     */
     const configureApiKeyCommand = vscode.commands.registerCommand(
       'redblink.configureApiKey',
       async () => {
@@ -297,7 +314,9 @@ export async function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(configureApiKeyCommand);
     console.log('✅ Configure API key command registered');
 
-    // Command: Show configured providers
+    /**
+     * Command: Show configured providers
+     */
     const showProvidersCommand = vscode.commands.registerCommand(
       'redblink.showProviders',
       async () => {
@@ -309,7 +328,9 @@ export async function activate(context: vscode.ExtensionContext) {
           console.log('');
           console.log('📊 PROVIDER STATUS:');
           console.log(`   Active: ${active}`);
-          console.log(`   Available: ${available.join(', ') || 'None configured'}`);
+          console.log(
+            `   Available: ${available.join(', ') || 'None configured'}`
+          );
           console.log(`   Cache size: ${status.cacheSize}`);
           console.log(`   Queued requests: ${status.queuedRequests}`);
           console.log('');
@@ -324,56 +345,138 @@ export async function activate(context: vscode.ExtensionContext) {
       }
     );
     context.subscriptions.push(showProvidersCommand);
-    console.log('✅ Show providers command registered\n');
+    console.log('✅ Show providers command registered');
+
+    // ===== FILE ANALYSIS COMMANDS (NEW) =====
+
+    /**
+     * Command: Analyze current file
+     */
+    const analyzeFileCommand = vscode.commands.registerCommand(
+      'redblink.analyzeFile',
+      () => {
+        console.log('📄 Analyze File command');
+        fileAnalyzer.analyzeCurrentFile();
+      }
+    );
+    context.subscriptions.push(analyzeFileCommand);
+    console.log('✅ Analyze File command registered');
+
+    /**
+     * Command: Analyze selected code
+     */
+    const analyzeSelectionCommand = vscode.commands.registerCommand(
+      'redblink.analyzeSelection',
+      () => {
+        console.log('📍 Analyze Selection command');
+        fileAnalyzer.analyzeSelection();
+      }
+    );
+    context.subscriptions.push(analyzeSelectionCommand);
+    console.log('✅ Analyze Selection command registered');
+
+    /**
+     * Command: Generate documentation
+     */
+    const generateDocsCommand = vscode.commands.registerCommand(
+      'redblink.generateDocs',
+      () => {
+        console.log('📝 Generate Documentation command');
+        fileAnalyzer.generateDocumentation();
+      }
+    );
+    context.subscriptions.push(generateDocsCommand);
+    console.log('✅ Generate Documentation command registered');
+
+    /**
+     * Command: Code review
+     */
+    const codeReviewCommand = vscode.commands.registerCommand(
+      'redblink.codeReview',
+      () => {
+        console.log('🔍 Code Review command');
+        fileAnalyzer.performCodeReview();
+      }
+    );
+    context.subscriptions.push(codeReviewCommand);
+    console.log('✅ Code Review command registered');
+
+    /**
+     * Command: Optimize code
+     */
+    const optimizeCommand = vscode.commands.registerCommand(
+      'redblink.optimize',
+      () => {
+        console.log('⚡ Optimize command');
+        fileAnalyzer.suggestOptimizations();
+      }
+    );
+    context.subscriptions.push(optimizeCommand);
+    console.log('✅ Optimize command registered');
+
+    console.log('✅ All file analysis commands registered\n');
 
     // ===== PHASE 6: FILE CHANGE LISTENER =====
     console.log('📝 Phase 6: Setting up file listeners...');
 
     const onChangeDisposable = vscode.workspace.onDidChangeTextDocument(() => {
-      // In the future: real-time error detection and refresh
+      // Real-time error detection would go here
       // For now: placeholder
     });
     context.subscriptions.push(onChangeDisposable);
     console.log('✅ Document change listener registered\n');
 
-    // ===== PHASE 7: DIAGNOSTICS LISTENER (REAL ERROR DETECTION) =====
+    // ===== PHASE 7: DIAGNOSTICS LISTENER =====
     console.log('🔍 Phase 7: Setting up diagnostics listener...');
 
-    const onDiagnosticsChange = vscode.languages.onDidChangeDiagnostics((event) => {
-      console.log('📊 Diagnostics changed');
+    const onDiagnosticsChange = vscode.languages.onDidChangeDiagnostics(
+      (event) => {
+        console.log('📊 Diagnostics changed');
 
-      // Get all diagnostics
-      for (const uri of event.uris) {
-        const diagnostics = vscode.languages.getDiagnostics(uri);
+        // Get all diagnostics
+        for (const uri of event.uris) {
+          const diagnostics = vscode.languages.getDiagnostics(uri);
 
-        if (diagnostics.length === 0) {
-          continue;
-        }
+          if (diagnostics.length === 0) {
+            continue;
+          }
 
-        console.log(`   File: ${uri.fsPath}`);
-        console.log(`   Diagnostics: ${diagnostics.length}`);
+          console.log(`   File: ${uri.fsPath}`);
+          console.log(`   Diagnostics: ${diagnostics.length}`);
 
-        // Process each diagnostic
-        for (const diag of diagnostics) {
-          console.log(
-            `   - ${diag.severity === 0 ? 'ERROR' : 'WARNING'}: ${diag.message}`
-          );
-
-          // TODO: Convert VS Code diagnostic to our ErrorObject
-          // and add to activeErrors
+          // Process each diagnostic
+          for (const diag of diagnostics) {
+            console.log(
+              `   - ${diag.severity === 0 ? 'ERROR' : 'WARNING'}: ${diag.message}`
+            );
+          }
         }
       }
-    });
+    );
     context.subscriptions.push(onDiagnosticsChange);
     console.log('✅ Diagnostics listener registered\n');
 
     // ===== INITIALIZATION COMPLETE =====
     console.log('✨ RedBlink extension fully initialized!\n');
 
-    // Show welcome message with setup instructions
+    // Show welcome message
     vscode.window.showInformationMessage(
-      '🚀 RedBlink activated! Configure AI providers: Cmd+Shift+P → "RedBlink: Configure API Key"'
+      '🚀 RedBlink activated! Press Cmd+Shift+P to see all commands.'
     );
+
+    console.log('Available Commands:');
+    console.log('  Error Debugging:');
+    console.log('    - RedBlink: Test Assistant');
+    console.log('    - RedBlink: Configure API Key');
+    console.log('    - RedBlink: Switch Provider');
+    console.log('    - RedBlink: Show Providers');
+    console.log('  File Analysis:');
+    console.log('    - RedBlink: Analyze File');
+    console.log('    - RedBlink: Analyze Selection');
+    console.log('    - RedBlink: Generate Documentation');
+    console.log('    - RedBlink: Code Review');
+    console.log('    - RedBlink: Optimize Code');
+    console.log('\n');
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     console.error('❌ Extension activation error:', msg);
